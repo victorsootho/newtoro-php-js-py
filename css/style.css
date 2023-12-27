@@ -1,0 +1,10 @@
+/* Example CSS */
+body {
+  font-family: Arial, sans-serif;
+}
+
+input[type="text"],
+input[type="email"],
+input[type="password"] {
+  margin: 10px 0;
+}
