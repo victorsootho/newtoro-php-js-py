@@ -8,3 +8,9 @@ input[type="email"],
 input[type="password"] {
   margin: 10px 0;
 }
+
+.error-message {
+  color: red;
+  font-size: 0.8em;
+  margin: 5px 0;
+}

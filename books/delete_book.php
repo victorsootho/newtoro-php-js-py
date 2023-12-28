@@ -1,6 +1,7 @@
 <?php
-include 'includes/db.php';
-include 'includes/session.php';
+
+include '../includes/db.php';
+include '../includes/session.php';
 
 // Redirect user to login page if not logged in
 requireLogin();
@@ -14,12 +15,18 @@ if (isset($_GET['id'])) {
     // Prepare SQL statement to delete the book
     $sql = "DELETE FROM books WHERE id = ?";
     $stmt = $conn->prepare($sql);
-    $stmt->bind_param("i", $bookId);
 
+    // Check if preparation of the statement was successful
+    if (false === $stmt) {
+        die('Prepare error: ' . htmlspecialchars($conn->error));
+    }
+
+    // Bind parameters and execute the statement
+    $stmt->bind_param("i", $bookId);
     if ($stmt->execute()) {
         $message = "Book deleted successfully.";
     } else {
-        $message = "Error: " . $stmt->error;
+        die('Execute error: ' . htmlspecialchars($stmt->error));
     }
 
     $stmt->close();

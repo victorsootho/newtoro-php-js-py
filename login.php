@@ -5,11 +5,15 @@
     <link rel="stylesheet" type="text/css" href="css/style.css">
 </head>
 <body>
-<form action="login.php" method="post">
+<form action="login.php" method="post" id="login-form">
     Username/Email: <input type="text" name="username_email" required><br>
+    <div class="error-message" id="username-email-error"></div>
     Password: <input type="password" name="password" required><br>
+    <div class="error-message" id="password-error"></div>
     <input type="submit" name="submit" value="Login">
 </form>
+
+<script src="js/form-validation.js"></script>
 </body>
 </html>
 

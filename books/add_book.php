@@ -3,7 +3,6 @@ ini_set('display_errors', 1);
 ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
 
-
 include '../includes/db.php';
 include '../includes/functions.php';
 include '../includes/session.php';
@@ -22,18 +21,32 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $description = sanitizeInput($_POST['description']);
     $image_url = sanitizeInput($_POST['image_url']);
 
-    // Prepare SQL statement to insert book data
-    $sql = "INSERT INTO books (title, author, isbn, price, description, image_url) VALUES (?, ?, ?, ?, ?, ?)";
-    $stmt = $conn->prepare($sql);
-    $stmt->bind_param("sssdss", $title, $author, $isbn, $price, $description, $image_url);
+    // First, check if a book with the same title and author already exists
+    $checkSql = "SELECT * FROM books WHERE title = ? AND author = ?";
+    $checkStmt = $conn->prepare($checkSql);
+    $checkStmt->bind_param("ss", $title, $author);
+    $checkStmt->execute();
+    $result = $checkStmt->get_result();
+    $checkStmt->close();
 
-    if ($stmt->execute()) {
-        $message = "New book added successfully!";
+    if ($result->num_rows > 0) {
+        // Book with same title and author exists
+        $message = "A book with the same title and author already exists.";
     } else {
-        $message = "Error: " . $stmt->error;
+        // Prepare SQL statement to insert book data
+        $sql = "INSERT INTO books (title, author, isbn, price, description, image_url) VALUES (?, ?, ?, ?, ?, ?)";
+        $stmt = $conn->prepare($sql);
+        $stmt->bind_param("sssdss", $title, $author, $isbn, $price, $description, $image_url);
+
+        if ($stmt->execute()) {
+            $message = "New book added successfully!";
+        } else {
+            $message = "Error: " . $stmt->error;
+        }
+
+        $stmt->close();
     }
 
-    $stmt->close();
     $conn->close();
 }
 ?>

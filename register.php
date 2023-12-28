@@ -1,16 +1,21 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
     <title>Register</title>
-    <link rel="stylesheet" type="text/css" href="css/style.css">
+    <link rel="stylesheet" type="text/css" href="/css/style.css">
 </head>
 <body>
-    <form action="register.php" method="post">
-        Username: <input type="text" name="username" required><br>
-        Email: <input type="email" name="email" required><br>
-        Password: <input type="password" name="password" required><br>
-        <input type="submit" name="submit" value="Register">
-    </form>
+<form action="register.php" method="post">
+    Username: <input type="text" name="username" required><br>
+    <div class="error-message" id="username-error"></div>
+    Email: <input type="email" name="email" required><br>
+    <div class="error-message" id="email-error"></div>
+    Password: <input type="password" name="password" required><br>
+    <div class="error-message" id="password-error"></div>
+    <input type="submit" name="submit" value="Register">
+</form>
+
+<script src="js/form-validation.js"></script>
 </body>
 </html>
 
