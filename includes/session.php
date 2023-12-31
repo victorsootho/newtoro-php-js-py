@@ -7,10 +7,10 @@ function isLoggedIn() {
 
 function requireLogin() {
     if (!isLoggedIn()) {
-        header('Location: login.php');
+        // Redirect to the login page with an absolute path
+        header('Location: /newtoro/login.php');
         exit;
     }
 }
 
 // You can add more session-related functions here
-?>

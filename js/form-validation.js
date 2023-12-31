@@ -1,55 +1,29 @@
-document.addEventListener('DOMContentLoaded', function() {
-    // Identify which form is active
-    const isRegisterForm = document.querySelector('input[name="username"]') !== null;
-    const isLoginForm = document.querySelector('input[name="username_email"]') !== null;
-
-    // Common elements for both forms
+document.addEventListener('DOMContentLoaded', function () {
     const form = document.querySelector('form');
+    const username = document.querySelector('input[name="username"]');
+    const email = document.querySelector('input[name="email"]');
     const password = document.querySelector('input[name="password"]');
+    const usernameError = document.getElementById('username-error');
+    const emailError = document.getElementById('email-error');
     const passwordError = document.getElementById('password-error');
 
-    // Registration form specific elements
-    let username, email, usernameError, emailError;
-    if (isRegisterForm) {
-        username = document.querySelector('input[name="username"]');
-        email = document.querySelector('input[name="email"]');
-        usernameError = document.getElementById('username-error');
-        emailError = document.getElementById('email-error');
-    }
-
-    // Login form specific elements
-    let usernameEmail, usernameEmailError;
-    if (isLoginForm) {
-        usernameEmail = document.querySelector('input[name="username_email"]');
-        usernameEmailError = document.getElementById('username-email-error');
-    }
-
-    form.addEventListener('submit', function(e) {
+    form.addEventListener('submit', function (e) {
         let valid = true;
         clearErrors();
 
-        // Registration form validation
-        if (isRegisterForm) {
-            if (username.value.trim() === '') {
-                usernameError.textContent = 'Username is required.';
-                valid = false;
-            }
-
-            if (!validateEmail(email.value)) {
-                emailError.textContent = 'Please enter a valid email.';
-                valid = false;
-            }
+        // Validate username
+        if (username.value.trim() === '') {
+            usernameError.textContent = 'Username is required.';
+            valid = false;
         }
 
-        // Login form validation
-        if (isLoginForm) {
-            if (usernameEmail.value.trim() === '') {
-                usernameEmailError.textContent = 'Username or Email is required.';
-                valid = false;
-            }
+        // Validate email
+        if (!validateEmail(email.value)) {
+            emailError.textContent = 'Please enter a valid email.';
+            valid = false;
         }
 
-        // Common password validation
+        // Validate password
         if (password.value.length < 6) {
             passwordError.textContent = 'Password must be at least 6 characters long.';
             valid = false;
@@ -61,13 +35,8 @@ document.addEventListener('DOMContentLoaded', function() {
     });
 
     function clearErrors() {
-        if (isRegisterForm) {
-            usernameError.textContent = '';
-            emailError.textContent = '';
-        }
-        if (isLoginForm) {
-            usernameEmailError.textContent = '';
-        }
+        usernameError.textContent = '';
+        emailError.textContent = '';
         passwordError.textContent = '';
     }
 
@@ -76,3 +45,4 @@ document.addEventListener('DOMContentLoaded', function() {
         return re.test(email.toLowerCase());
     }
 });
+
